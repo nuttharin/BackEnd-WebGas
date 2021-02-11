@@ -39,4 +39,20 @@ app.use((req, res, next) => {
 //set route
 
 const userRoute = require('./routes/user_route');
+const tokenRoute = require('./routes/token_route');
+const orderRoute = require('./routes/order_route');
+const driverRoute = require('./routes/diver_route');
+const storeRoute = require('./routes/store_route');
 
+
+app.use('/web/user',userRoute);
+app.use('/web/token',tokenRoute);
+app.use('/web/order',orderRoute);
+app.use('/web/driver',driverRoute);
+app.use('/web/store',storeRoute);
+
+
+
+
+
+module.exports = app ;
