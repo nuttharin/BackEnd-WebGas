@@ -12,7 +12,7 @@ if(data == "" || data == null)
     res.status(200).json(resData);
 }   
 else {
-    let sql = ``;
+    sql = ``;
     pool.query(
         sql, 
         (err, result) => {

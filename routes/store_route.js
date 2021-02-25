@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const orderControllers = require('../controllers/store_controller');
+const storeControllers = require('../controllers/store_controller');
 
 
 
@@ -11,9 +11,13 @@ const orderControllers = require('../controllers/store_controller');
 
 //GET
 // Order
-router.get('/warroom/get/getGasStoreAll',orderControllers.getGasStoreAll);
-
-router.get('/warroom/get/getGasStoreByStoreId',orderControllers.getGasStoreByStoreId);
+router.get('/warroom/get/getGasStoreAll',storeControllers.getGasStoreAll);
+router.get('/warroom/get/getGasStoreByStoreId',storeControllers.getGasStoreByStoreId);
+router.get('/warroom/get/getGasStoreOnline' , storeControllers.getGasStoreOnline);
+router.get('/warroom/get/getGasStoreOffline' , storeControllers.getGasStoreOffline);
+router.get('/warroom/get/getGasStoreNumberAll' , storeControllers.getGasStoreNumberAll);
+router.get('/warroom/get/getStoreNumberHaveOrder', storeControllers.getStoreNumberHaveOrder);
+// router.get()
 
 // Diver
 // router.get('',orderControllers.getOrderAll)

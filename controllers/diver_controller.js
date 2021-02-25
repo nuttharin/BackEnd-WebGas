@@ -2,7 +2,7 @@ const { pool } = require('../dbConfig');
 const userModel = require('../model/user_model');
 const functionForData = require('../function/functionForData');
 const moment = require('moment');
-const bcrypt = require('bcrypt');
+
 
 
 // Data for response api

@@ -16,7 +16,9 @@ let sql = "" ;
 
 getOrderAll = (req , res , next) => {
   
-    sql = `SELECT tb_order.id ,tb_user.name , tb_machine_gas.machine_code,tb_order.priceall, send_type , TO_CHAR(tb_order."createDate" ,'DD-MM-YYYY') as date,
+    sql = `SELECT tb_order.id ,tb_user.name , tb_machine_gas.machine_code , tb_machine_gas.type
+            ,tb_order.priceall
+            , send_type , TO_CHAR(tb_order."createDate" ,'DD-MM-YYYY') as date,
             TO_CHAR(tb_order."createDate" ,'HH24:MI') as time , tb_order_status.name as status
             FROM tb_order
             LEFT JOIN tb_user ON tb_order.user_id = tb_user.id

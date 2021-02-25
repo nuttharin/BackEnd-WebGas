@@ -43,6 +43,7 @@ const tokenRoute = require('./routes/token_route');
 const orderRoute = require('./routes/order_route');
 const driverRoute = require('./routes/diver_route');
 const storeRoute = require('./routes/store_route');
+const problemRoute = require('./routes/problem_route');
 
 
 app.use('/web/user',userRoute);
@@ -50,6 +51,7 @@ app.use('/web/token',tokenRoute);
 app.use('/web/order',orderRoute);
 app.use('/web/driver',driverRoute);
 app.use('/web/store',storeRoute);
+app.use('/web/problem',problemRoute);
 
 
 
