@@ -25,6 +25,7 @@ getGasStoreAll = (req , res , next) => {
                 END as status 
             FROM tb_machine_gas 
             LEFT JOIN tb_order ON tb_machine_gas.id = tb_order.machine_id
+            WHERE tb_machine_gas."isDelete" = '0'
             GROUP BY tb_machine_gas.id
             ORDER BY tb_machine_gas.id;`;
     pool.query(
@@ -121,7 +122,7 @@ getGasStoreByStoreId = (req , res , next) => {
 
 getGasStoreNumberAll= (req , res , next) => {
     sql = `SELECT COUNT(id) as online FROM tb_machine_gas
-            WHERE tb_machine_gas.isDelete = '0';`;
+            WHERE tb_machine_gas."isDelete" = '0';`;
     pool.query(
         sql, 
         (err, result) => {
@@ -146,7 +147,7 @@ getGasStoreNumberAll= (req , res , next) => {
 
 getGasStoreOnline = (req , res , next) => {
     sql = `SELECT COUNT(id) as online FROM tb_machine_gas
-            WHERE tb_machine_gas.status = '1' AND tb_machine_gas.isDelete = '0';`;
+            WHERE tb_machine_gas.status = '1' AND tb_machine_gas."isDelete" = '0';`;
     pool.query(
         sql, 
         (err, result) => {
@@ -171,7 +172,7 @@ getGasStoreOnline = (req , res , next) => {
 
 getGasStoreOffline = (req , res , next) => {
     sql = `SELECT COUNT(id) as offline FROM tb_machine_gas
-             WHERE tb_machine_gas.status = '0' AND tb_machine_gas.isDelete = '0'; `;
+             WHERE tb_machine_gas.status = '0' AND tb_machine_gas."isDelete" = '0'; `;
     pool.query(
         sql, 
         (err, result) => {
