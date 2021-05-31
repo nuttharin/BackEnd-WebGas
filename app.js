@@ -44,9 +44,11 @@ const orderRoute = require('./routes/order_route');
 const driverRoute = require('./routes/diver_route');
 const storeRoute = require('./routes/store_route');
 const problemRoute = require('./routes/problem_route');
+const appManageRoute = require('./routes/appManage_route')
 
 
 app.use('/web/user',userRoute);
+app.use('/web/mobile',appManageRoute)
 app.use('/web/token',tokenRoute);
 app.use('/web/order',orderRoute);
 app.use('/web/driver',driverRoute);
