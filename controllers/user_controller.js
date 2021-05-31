@@ -3,7 +3,7 @@ const { generateToken , generateRefreshToken , generateTokenTime} = require('../
 const userModel = require('../model/user_model');
 const functionForData = require('../function/functionForData');
 const moment = require('moment');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 
 
