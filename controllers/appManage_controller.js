@@ -12,9 +12,43 @@ let resData = {
 // varible 
 let sql = "" ;
 
+getUserAppByUserId = async (req , res , next) => {
+    let data = req.query.user_id ;
+    sql = `SELECT "id" , "name","createDate",email,phone,"type" , "urlPicture" FROM "public"."tb_user" WHERE "isApproved" = 0 AND "isDelete" <> 1 AND id = ${data};`;
+    pool.query(
+        sql, 
+        async (err, result) => {
+            //console.log(result.rows); 
+            if (err) {
+                //console.log(err); 
+                resData.status = "error"; 
+                resData.statusCode = 200 ;
+                resData.data = err ;
+                res.status(resData.statusCode).json(resData)
+            }
+            else
+            {       
+                resData.status = "success"; 
+                resData.statusCode = 201 ;
+                
+                let urlTemp = JSON.parse(result.rows[0].urlPicture)
+                //console.log( urlTemp.cardId)
+                delete result.rows[0].urlPicture ;
+                result.rows[0].urlPicture = { 
+                    cardId : await process.env.IP_ADDRESS_APP + urlTemp.cardId , 
+                    cardIdFace : await process.env.IP_ADDRESS_APP + urlTemp.cardIdFace 
+                }
+                
+
+                resData.data = result.rows[0] ;
+                res.status(resData.statusCode).json(resData);
+            }
+        }
+    );
+}
 
 getUserListAppForApprove = (req , res , next) => {
-    sql = `SELECT "id" , "name","createDate",email,phone,"type" FROM "public"."tb_user" WHERE "isApproved" = 0 AND "isDelete" <> 1;;`;
+    sql = `SELECT "id" , "name","createDate",email,phone,"type" , "urlPicture"FROM "public"."tb_user" WHERE "isApproved" = 0 AND "isDelete" <> 1;`;
     pool.query(
         sql, 
         (err, result) => {
@@ -30,6 +64,7 @@ getUserListAppForApprove = (req , res , next) => {
             {       
                 resData.status = "success"; 
                 resData.statusCode = 201 ;
+                //result.rows
                 resData.data = result.rows ;
                 res.status(resData.statusCode).json(resData);
             }
@@ -106,7 +141,7 @@ approveUserForAppById = (req , res , next) => {
 
 //Driver
 getDriverListAppForApprove = (req , res , next) => {
-    sql = `SELECT id , "name" "createDate"  ,email  , phone  FROM tb_rider
+    sql = `SELECT id , "name" "createDate"  ,email  , phone , "urlPicture"  FROM tb_rider
     WHERE "isApproved" = 0 AND "isDelete" <> 1 
     ORDER BY id ;`;
     pool.query(
@@ -195,6 +230,7 @@ approveDriverForAppById = (req , res , next) => {
 }
 
 module.exports = {
+    getUserAppByUserId, 
     getUserListAppForApprove,
     getUserAppForApproveById,
     approveUserForAppById,
