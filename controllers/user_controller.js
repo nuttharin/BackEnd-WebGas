@@ -20,7 +20,9 @@ let sql = "" ;
 
 
 userLogin = (req , res , next) => {
+
     let dataBody = req.body ;
+
     let data = {
         user : dataBody.username,
         pwd : dataBody.password
@@ -35,7 +37,6 @@ userLogin = (req , res , next) => {
         pool.query(
         sql, 
         async (err, result) => {
-
             if (err) {
                 //console.log(err);  
                 resData.status = "error";
@@ -50,7 +51,7 @@ userLogin = (req , res , next) => {
                     let match = await bcrypt.compare(dataBody.password, result.rows[0].password);
                     if(match) 
                     {
-                        console.log(result.rows)
+                        //console.log(result.rows)
                         dataUser = result.rows[0];
                         delete dataUser.password ;
                         let dataGen = {
@@ -83,8 +84,7 @@ userLogin = (req , res , next) => {
                     resData.statusCode = 200 ;
                     resData.data = "not have username";
                     res.status(resData.statusCode).json(resData);
-                }
-               
+                }               
             }
         }
     );
