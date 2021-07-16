@@ -15,7 +15,7 @@ const userControllers = require('../controllers/user_controller');
 //POST
 router.post('/login',userControllers.userLogin)
 router.post('/logOut',userControllers.userLogOut)
-router.post('/register' , userControllers.registerUser)
+router.post('/post/register' , userControllers.registerUser)
 
 
 

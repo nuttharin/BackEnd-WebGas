@@ -96,21 +96,30 @@ userLogOut = (req , res , next) => {
 
 registerUser = async (req , res , next) => {
     let dataBody = req.body ;
-    let dataUser = new userModel.User();
-    //let dataAddress = new Position();
-  
+    //console.log(dataBody)
+    let dataUser = new userModel.UserRegister();
+    
+
+    let pwd = await Math.random().toString(36).substring(6);
 
     dataUser.name= dataBody.name ;
     dataUser.username =  dataBody.username;
-    dataUser.password= dataBody.password ;
+    dataUser.password= await bcrypt.hash(pwd, parseInt(saltRounds));
     dataUser.type = dataBody.type ;
-
-
+    dataUser.personnelCode = dataBody.personnelCode ;
+    dataUser.positionCode = dataBody.positionCode ;
+    dataUser.taxIdentificationNumber = dataBody.taxIdentificationNumber ;
+    dataUser.birthday = dataBody.birthday ;
+    dataUser.province = dataBody.province ;
+    dataUser.district = dataBody.district ;
+    dataUser.subDistrict = dataBody.subDistrict ;
+    dataUser.phone = dataBody.phone ;
+    dataUser.salary = dataBody.salary ;
+    dataUser.businessLeave = dataBody.businessLeave ;
+    dataUser.sickLeave = dataBody.sickLeave ;
     dataUser.createDate = moment(new Date()).format('YYYY-MM-DD H:mm:ss');
-    dataUser.modifyDate = moment(new Date()).format('YYYY-MM-DD H:mm:ss'); 
-    
-    
-
+    dataUser.modifyDate = moment(new Date()).format('YYYY-MM-DD H:mm:ss');   
+    //console.log(dataUser)
 
     let checkParameter = await functionForData.funCheckParameterWithOutId(dataUser);
     
@@ -123,10 +132,12 @@ registerUser = async (req , res , next) => {
         res.status(200).json(resData);
     }
     else
-    {       
-        let sql = `SELECT * FROM tb_web_user
+    {     
+              
+        let sql = `SELECT * FROM "tb_web_user"
                     WHERE username = '${dataUser.username}' 
                     AND isdelete = '0'`;
+        console.log(sql)
         pool.query(
             sql, 
             async (err, result) => {
@@ -134,12 +145,12 @@ registerUser = async (req , res , next) => {
                 if (err) {
                     resData.status = "error";
                     resData.statusCode = 200 ;
-                    resData.data = "query command error : " + err;
+                    resData.data = "query command error tb_web_user check username: " + err;
                     res.status(resData.statusCode).json(resData);
                 }
                 else
                 {
-                    console.log(result.rows)
+                    //console.log(result.rows)
                     if(result.rows.length > 0){
                         resData.status = "error";
                         resData.statusCode = 200 ;
@@ -148,13 +159,16 @@ registerUser = async (req , res , next) => {
                     }
                     else
                     {
-                        dataUser.password = await bcrypt.hash(dataBody.password , parseInt(saltRounds));
-                        console.log(dataUser.password)
-                        sql = `INSERT INTO "public"."tb_web_user"("username", "password", "name", "type", "createdate", "modifydate" ,"isdelete") 
-                                VALUES ('${dataUser.username}', '${dataUser.password}',
-                                '${dataUser.name}', '${dataUser.type}',
-                                '${dataUser.createDate}', '${dataUser.modifyDate}' , '0') RETURNING *`;
-                        // console.log(sql)
+                        
+                        //${dataUser.}
+                        sql = `INSERT INTO "public"."tb_web_user"( "username", "password", "name", "type", "createdate", "modifydate", "isdelete", 
+                        "personnelCode", "positionCode", "taxIdentificationNumber", "birthday", "province", "district", "subDistrict", "phone", 
+                        "salary", "businessLeave", "sickLeave", "approveDate", "isApproved", "approvedBy") 
+                        VALUES ('${dataUser.username}', '${dataUser.password}', '${dataUser.name}', '${dataUser.type}', 
+                        '${dataUser.createDate}', '${dataUser.modifyDate}', 0, '${dataUser.personnelCode}', '${dataUser.positionCode}', '${dataUser.taxIdentificationNumber}', 
+                        '${dataUser.birthday}', ${dataUser.province}, ${dataUser.district}, ${dataUser.subDistrict}, '${dataUser.phone}', 
+                        ${dataUser.salary}, ${dataUser.businessLeave}, ${dataUser.sickLeave}, NULL, 0, NULL) RETURNING *`;
+                        //console.log(sql)
                         pool.query(
                             sql, 
                             async (err, result) => 
@@ -164,7 +178,7 @@ registerUser = async (req , res , next) => {
                                     //console.log(err);                      
                                     resData.status = "error";
                                     resData.statusCode = 200 ;
-                                    resData.data = "query command error tb_user: " + err;
+                                    resData.data = "query command error tb_web_user insert : " + err;
                                     res.status(400).json(resData);
                                 }
                                 else
@@ -176,8 +190,7 @@ registerUser = async (req , res , next) => {
                                 }
                             }
                         );
-                    }                        
-                
+                    } 
                 }
             }
         );  

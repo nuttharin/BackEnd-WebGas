@@ -44,6 +44,7 @@ const orderRoute = require('./routes/order_route');
 const driverRoute = require('./routes/diver_route');
 const storeRoute = require('./routes/store_route');
 const problemRoute = require('./routes/problem_route');
+const generalRoute = require('./routes/general_route');
 const appManageRoute = require('./routes/appManage_route')
 
 
@@ -54,6 +55,7 @@ app.use('/web/order',orderRoute);
 app.use('/web/driver',driverRoute);
 app.use('/web/store',storeRoute);
 app.use('/web/problem',problemRoute);
+app.use('/web/general',generalRoute);
 
 
 

@@ -36,7 +36,7 @@ getProvince = (req , res , next) => {
 
 getAmphure = (req , res, next) => {
 
-    let idProvince = req.query.idProvince ;
+    let idProvince = req.query.idProvince;
     if(idProvince == null || idProvince == "")
     {
         let data = {
@@ -77,12 +77,12 @@ getAmphure = (req , res, next) => {
 };
 
 getDistrict = (req, res, next) =>{
-    let idAmphure = req.query.idAmphure ;
+    let idAmphure = req.query.idDistrict;
     if(idAmphure == null || idAmphure == "")
     {
         let data = {
             status : "error",
-            data : "not have idAmphure"
+            data : "not have idDistrict"
         }   
         res.json(data)
     }
