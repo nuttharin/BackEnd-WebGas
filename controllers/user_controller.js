@@ -198,6 +198,48 @@ registerUser = async (req , res , next) => {
     }
 }
 
+changePassword = async (req , res , next) => {
+    let data = req.body ;   
+
+     if( data == "" || data == undefined || data == null)
+    {
+        //console.log(checkParameter)       
+        resData.status = "error";
+        resData.statusCode = 200 ;
+        resData.data = "not have parameter ( user_id , password )";    
+        res.status(200).json(resData);
+    }
+    else {
+        //console.log(data.password)
+        data.password = await bcrypt.hash(data.password, parseInt(saltRounds));
+        sql =  `UPDATE "public"."tb_web_user" SET "password" = '${data.password}' WHERE "id" = ${data.user_id}`;
+        //sql = `UPDATE "public"."tb_web_user" SET "password" = '${data.password}' WHERE "id" = ${data.user_id} ;`;
+        pool.query(
+            sql, 
+            (err, result) => {
+                //console.log(result); 
+                if (err) {
+                    //console.log(err); 
+                    resData.status = "error"; 
+                    resData.statusCode = 200 ;
+                    resData.data = err ;
+                    res.status(resData.statusCode).json(resData)
+                }
+                else
+                {       
+                    resData.status = "success"; 
+                    resData.statusCode = 201 ;
+                    resData.data = "update complete" ;
+                    res.status(resData.statusCode).json(resData);
+                }
+            }
+        );
+    }
+    
+
+
+}
+
 
 
 
@@ -206,7 +248,8 @@ registerUser = async (req , res , next) => {
 module.exports = {
     userLogin,
     userLogOut,
-    registerUser
+    registerUser,
+    changePassword
 }
 
 
